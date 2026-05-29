@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Portal Académico — Perfil</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f0f2f5;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #1a237e, #1565c0);
+        }
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #1565c0, #0d47a1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: white;
+            margin: 0 auto 15px;
+        }
+        .info-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .info-item:last-child {
+            border-bottom: none;
+        }
+        .info-icon {
+            width: 36px;
+            height: 36px;
+            background-color: #e3f2fd;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #1565c0;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .nav-link-custom {
+            color: rgba(255,255,255,0.85) !important;
+            font-weight: 500;
+        }
+        .nav-link-custom:hover {
+            color: white !important;
+        }
+        .nav-link-custom.active {
+            color: white !important;
+            background-color: rgba(255,255,255,0.2);
+            border-radius: 6px;
+        }
+        .xss-zone {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            border-radius: 8px;
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-mortarboard-fill me-2"></i>Portal Académico
+            </a>
+            <div class="navbar-nav ms-auto d-flex flex-row gap-2">
+                <a class="nav-link nav-link-custom active" href="/perfil">
+                    <i class="bi bi-person me-1"></i>Perfil
+                </a>
+                <a class="nav-link nav-link-custom" href="/notas">
+                    <i class="bi bi-journal-text me-1"></i>Notas
+                </a>
+                <a class="nav-link nav-link-custom" href="/propinas">
+                    <i class="bi bi-cash me-1"></i>Propinas
+                </a>
+                <a class="nav-link nav-link-custom" href="/logout">
+                    <i class="bi bi-box-arrow-right me-1"></i>Sair
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+
+                <div class="card mb-4">
+                    <div class="card-body p-4 text-center">
+                        <div class="avatar">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+                        <h4 class="fw-bold">{{ aluno['nome'] | upper }}</h4>
+                        <span class="badge bg-primary">{{ aluno['curso'] }}</span>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header bg-white fw-bold py-3">
+                        <i class="bi bi-info-circle text-primary me-2"></i>Informações Pessoais
+                    </div>
+                    <div class="card-body px-4">
+                        <div class="info-item">
+                            <div class="info-icon"><i class="bi bi-person"></i></div>
+                            <div>
+                                <small class="text-muted">Username</small>
+                                <div class="fw-semibold">{{ aluno['nome'] }}</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class="bi bi-envelope"></i></div>
+                            <div>
+                                <small class="text-muted">Email</small>
+                                <div class="fw-semibold">{{ aluno['email'] }}</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class="bi bi-book"></i></div>
+                            <div>
+                                <small class="text-muted">Curso</small>
+                                <div class="fw-semibold">{{ aluno['curso'] }}</div>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon"><i class="bi bi-calendar3"></i></div>
+                            <div>
+                                <small class="text-muted">Ano</small>
+                                <div class="fw-semibold">{{ aluno['ano'] }}º Ano</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header bg-white fw-bold py-3">
+                        <i class="bi bi-pencil text-warning me-2"></i>Actualizar Nome de Apresentação
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="xss-zone mb-3">
+                            <small class="text-muted">
+                                <i class="bi bi-exclamation-triangle me-1"></i>
+                                Este campo será visível para outros utilizadores do portal.
+                            </small>
+                        </div>
+                        <form method="POST" action="/actualizar_nome">
+                            <div class="input-group">
+                                <input
+                                    type="text"
+                                    name="novo_nome"
+                                    class="form-control"
+                                    placeholder="Escreve o teu nome de apresentação..."
+                                />
+                                <button class="btn btn-warning" type="submit">
+                                    <i class="bi bi-check-lg me-1"></i>Actualizar
+                                </button>
+                            </div>
+                        </form>
+                        {% if nome_apresentacao %}
+                        <div class="mt-3 p-3 bg-light rounded">
+                            <small class="text-muted">Nome actual:</small>
+                            <!-- VULNERÁVEL A XSS — renderiza sem escape -->
+                            <div class="fw-semibold">{{ nome_apresentacao | safe }}</div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
